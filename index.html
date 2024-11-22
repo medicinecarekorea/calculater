@@ -277,14 +277,16 @@
             // 결과 출력
             const resultDiv = document.getElementById('result');
             resultDiv.innerHTML = `
-                <p>BMR (기초대사량): ${bmr.toFixed(2)} kcal/day</p>
-                <p>출퇴근 운동: ${commuteCalories.toFixed(2)} kcal/day</p>
-                <p>도보 운동: ${lowCalories.toFixed(2)} kcal/day</p>
-                <p>빠르게 걷기: ${walkingCalories.toFixed(2)} kcal/day</p>
-                <p>달리기: ${cardioCalories.toFixed(2)} kcal/day</p>
-                <p>저강도 근력운동: ${strengthLowCalories.toFixed(2)} kcal/day</p>
-                <p>고강도 근력운동: ${strengthHighCalories.toFixed(2)} kcal/day</p>
-                <p>TDEE (총 소비량): ${tdee.toFixed(2)} kcal/day</p>
+            <div class="result" id="result" style="margin-top: 20px;">
+    		<p style="font-size: 18px; color: #217a00; font-weight: bold;">BMR (기초대사량): ${bmr.toFixed(2)} kcal/day</p>
+    		<p style="font-size: 18px; color: #333; font-weight: normal;">출퇴근 운동: ${commuteCalories.toFixed(2)} kcal/day</p>
+    		<p style="font-size: 18px; color: #333; font-weight: normal;">도보 운동: ${lowCalories.toFixed(2)} kcal/day</p>
+    		<p style="font-size: 18px; color: #333; font-weight: normal;">빠르게 걷기: ${walkingCalories.toFixed(2)} kcal/day</p>
+    		<p style="font-size: 18px; color: #333; font-weight: normal;">달리기: ${cardioCalories.toFixed(2)} kcal/day</p>
+    		<p style="font-size: 18px; color: #333; font-weight: normal;">저강도 근력운동: ${strengthLowCalories.toFixed(2)} kcal/day</p>
+    		<p style="font-size: 18px; color: #333; font-weight: normal;">고강도 근력운동: ${strengthHighCalories.toFixed(2)} kcal/day</p>
+    		<p style="font-size: 20px; color: #217a00; font-weight: bold;">TDEE (총 소비량): ${tdee.toFixed(2)} kcal/day</p>
+	</div>
             `;
         }
     </script>
