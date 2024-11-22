@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMR & TDEE 계산기</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+    <style>
+        body {
+            font-family: 'Pretendard', Arial, sans-serif; /* 기본 글씨체 */
+    	font-size: 16px; /* 기본 폰트 크기 */
+   	 color: #333; /* 기본 글자 색상 */
+    	line-height: 1.5; /* 줄 간격 */
+    	margin: 20px;
+        }
+        .form-group {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            flex: 1;
+            font-weight: normal;
+            margin-right: 0px;
+            font-size: 14px; /* <-- 라벨 폰트 크기 */
+        }
+        .form-group select {
+            flex: 1;
+            padding: 8px;
+            margin-right: 20px;
+            font-size: 14px; /* <-- 드롭다운 옵션 폰트 크기 */
+        }
+        button {
+            padding: 10px 20px;
+            margin-top: 20px;
+            width: 100%;
+            font-size: 16px; /* <-- 버튼 텍스트 폰트 크기 */
+        }
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+            font-size: 18px; /* <-- 결과 텍스트 폰트 크기 */
+        }
+        h1 {
+	text-align: center;
+            margin-bottom: 30px; /* 아래쪽 여백 */
+             line-height: 1.2; /* 줄 간격 */
+    	font-size: 25px; /* 폰트 크기 */
+    	font-weight: bold; /* 글씨 두께 */
+    	color: #217a00; /* 글자 색상 */
+        }
+        h2 {
+            margin-bottom: 5px; /* 아래쪽 여백 */
+             line-height: 1.2; /* 줄 간격 */
+    	font-size: 17px; /* 폰트 크기 */
+    	font-weight: bold; /* 글씨 두께 */
+    	color: #217a00; /* 글자 색상 */
+        }
+        h3 {
+            margin-bottom: 5px; /* 아래쪽 여백 */
+             line-height: 1.2; /* 줄 간격 */
+    	font-size: 15px; /* 폰트 크기 */
+    	font-weight: bold; /* 글씨 두께 */
+    	color: #333; /* 글자 색상 */
+        }
+        h4 {
+	margin-top: 0; /* h4 위쪽 여백 제거 */
+    	margin-bottom: 5px; /* 아래쪽 여백 */
+             line-height: 1.2; /* 줄 간격 */
+    	font-size: 14px; /* 폰트 크기 */
+    	font-weight: normal; /* 글씨 두께 */
+    	color: #555; /* 글자 색상 */
+       }
+        .container {
+            max-width: 500px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>BMR & TDEE 계산기</h1>
+        <form id="calculator-form">
+            <!-- 성별과 나이 -->
+            <div class="form-group">
+                <label for="gender">성별:</label>
+                <select id="gender">
+                    <option value="male">남성</option>
+                    <option value="female">여성</option>
+                </select>
+
+                <label for="age">나이:</label>
+                <select id="age">
+                    <option value="0" disabled selected>선택</option>
+                </select>
+            </div>
+
+            <!-- 키와 체중 -->
+            <div class="form-group">
+                <label for="height">키 (cm):</label>
+                <select id="height">
+                    <option value="0" disabled selected>선택</option>
+                </select>
+
+                <label for="weight">체중 (kg):</label>
+                <select id="weight">
+                    <option value="0" disabled selected>선택</option>
+                </select>
+            </div>
+            
+            <h2>1주일 운동량 작성하기</h2>
+            <h3>출퇴근시 도보/저강도 유산소 운동</h3>
+            <div class="form-group">
+                <label for="commute-days">일수선택:</label>
+                <select id="commute-days">
+                    <option value="0" disabled selected>해당 없음</option>
+                </select>
+
+                <label for="commute-minutes">시간선택:</label>
+                <select id="commute-minutes">
+                    <option value="0" disabled selected>해당 없음</option>
+                </select>
+            </div>
+
+            <h3>도보, 산책/저강도 유산소 운동</h3>
+            <div class="form-group">
+                <label for="low-intensity-days">일수선택:</label>
+                <select id="low-intensity-days">
+                    <option value="0" disabled selected>해당 없음</option>
+                </select>
+
+                <label for="low-intensity-minutes">시간선택:</label>
+                <select id="low-intensity-minutes">
+                    <option value="0" disabled selected>해당 없음</option>
+                </select>
+            </div>
+
+            <h3>빠르게 걷기/중강도 유산소 운동</h3>
+            <div class="form-group">
+                <label for="walking-days">일수선택:</label>
+                <select id="walking-days">
+                    <option value="0" disabled selected>해당 없음</option>
+                </select>
+
+                <label for="walking-minutes">시간선택:</label>
+                <select id="walking-minutes">
+                    <option value="0" disabled selected>해당 없음</option>
+                </select>
+            </div>
+
+            <h3>달리기/고강도 유산소운동</h3>
+            <div class="form-group">
+                <label for="cardio-days">일수선택:</label>
+                <select id="cardio-days">
+                    <option value="0" disabled selected>해당 없음</option>
+                </select>
+
+                <label for="cardio-minutes">시간선택:</label>
+                <select id="cardio-minutes">
+                    <option value="0" disabled selected>해당 없음</option>
+                </select>
+            </div>
+
+            <h3>근력운동/저강도 무산소운동</h3>
+	<h4>(ex 가벼운 웨이트트레이닝,밴드운동, 필라테스 등)</h4>
+            <div class="form-group">
+                <label for="strength-days-low">일수선택:</label>
+                <select id="strength-days-low">
+                    <option value="0" disabled selected>해당 없음</option>
+                </select>
+
+                <label for="strength-minutes-low">시간선택:</label>
+                <select id="strength-minutes-low">
+                    <option value="0" disabled selected>해당 없음</option>
+                </select>
+            </div>
+
+            <h3>근력운동/고강도 무산소운동</h3>
+	<h4>(ex.웨이트 리프팅,크로스핏,파워리프팅 등)</h4>
+            <div class="form-group">
+                <label for="strength-days-high">일수선택:</label>
+                <select id="strength-days-high">
+                    <option value="0" disabled selected>해당 없음</option>
+                </select>
+
+                <label for="strength-minutes-high">시간선택:</label>
+                <select id="strength-minutes-high">
+                    <option value="0" disabled selected>해당 없음</option>
+                </select>
+            </div>
+
+            <button type="button" onclick="calculate()">계산하기</button>
+        </form>
+
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        window.onload = function() {
+            // 범위별 옵션 생성 함수
+            function createOptions(selectId, start, end, step = 1, unit = "") {
+                const select = document.getElementById(selectId);
+                for (let i = start; i <= end; i += step) {
+                    const option = document.createElement('option');
+                    option.value = i;
+                    option.textContent = `${i}${unit}`;
+                    select.appendChild(option);
+                }
+            }
+
+            // 나이, 키, 체중 옵션 생성
+            createOptions('age', 15, 100, 1, "세");
+            createOptions('height', 100, 200, 1, "cm");
+            createOptions('weight', 20, 180, 1, "kg");
+
+            // 운동 세부 사항 옵션 생성
+            const timeOptions = ['commute-days', 'commute-minutes', 'low-intensity-days', 'low-intensity-minutes',
+                'walking-days', 'walking-minutes', 'cardio-days', 'cardio-minutes',
+                'strength-days-low', 'strength-minutes-low', 'strength-days-high', 'strength-minutes-high'];
+
+            timeOptions.forEach(id => {
+                if (id.includes('days')) {
+                    createOptions(id, 0, 7, 1, "일");
+                } else {
+                    createOptions(id, 10, 360, 10, "분");
+                }
+            });
+        };
+
+        function calculate() {
+            // 입력값 처리 및 MET 값에 따른 계산 추가
+            // 새로운 항목에 대해서도 동일한 구조로 처리
+        }
+    </script>
+</body>
+</html>
