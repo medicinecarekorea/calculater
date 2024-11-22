@@ -228,8 +228,64 @@
         };
 
         function calculate() {
-            // 입력값 처리 및 MET 값에 따른 계산 추가
-            // 새로운 항목에 대해서도 동일한 구조로 처리
+            // 입력값 처리
+            const gender = document.getElementById('gender').value;
+            const age = parseInt(document.getElementById('age').value);
+            const height = parseInt(document.getElementById('height').value);
+            const weight = parseInt(document.getElementById('weight').value);
+
+            const commuteDays = parseInt(document.getElementById('commute-days').value) || 0;
+            const commuteMinutes = parseInt(document.getElementById('commute-minutes').value) || 0;
+            const lowDays = parseInt(document.getElementById('low-intensity-days').value) || 0;
+            const lowMinutes = parseInt(document.getElementById('low-intensity-minutes').value) || 0;
+            const walkingDays = parseInt(document.getElementById('walking-days').value) || 0;
+            const walkingMinutes = parseInt(document.getElementById('walking-minutes').value) || 0;
+            const cardioDays = parseInt(document.getElementById('cardio-days').value) || 0;
+            const cardioMinutes = parseInt(document.getElementById('cardio-minutes').value) || 0;
+            const strengthLowDays = parseInt(document.getElementById('strength-days-low').value) || 0;
+            const strengthLowMinutes = parseInt(document.getElementById('strength-minutes-low').value) || 0;
+            const strengthHighDays = parseInt(document.getElementById('strength-days-high').value) || 0;
+            const strengthHighMinutes = parseInt(document.getElementById('strength-minutes-high').value) || 0;
+
+            // BMR 계산
+            let bmr;
+            if (gender === 'male') {
+                bmr = 10 * weight + 6.25 * height - 5 * age + 5;
+            } else {
+                bmr = 10 * weight + 6.25 * height - 5 * age - 161;
+            }
+
+            // MET 값 설정
+            const commuteMET = 3; // 출퇴근 걷기
+            const lowMET = 2; // 도보, 산책
+            const walkingMET = 3.5; // 빠르게 걷기
+            const cardioMET = 6; // 달리기
+            const strengthLowMET = 4; // 저강도 근력운동
+            const strengthHighMET = 8; // 고강도 근력운동
+
+            // 1일 단위 칼로리 소모량 계산
+            const commuteCalories = (commuteMET * weight * (commuteMinutes / 60)) * (commuteDays / 7);
+            const lowCalories = (lowMET * weight * (lowMinutes / 60)) * (lowDays / 7);
+            const walkingCalories = (walkingMET * weight * (walkingMinutes / 60)) * (walkingDays / 7);
+            const cardioCalories = (cardioMET * weight * (cardioMinutes / 60)) * (cardioDays / 7);
+            const strengthLowCalories = (strengthLowMET * weight * (strengthLowMinutes / 60)) * (strengthLowDays / 7);
+            const strengthHighCalories = (strengthHighMET * weight * (strengthHighMinutes / 60)) * (strengthHighDays / 7);
+
+            // TDEE 계산 (1일 단위)
+            const tdee = bmr + commuteCalories + lowCalories + walkingCalories + cardioCalories + strengthLowCalories + strengthHighCalories;
+
+            // 결과 출력
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `
+                <p>BMR (기초대사량): ${bmr.toFixed(2)} kcal/day</p>
+                <p>출퇴근 운동: ${commuteCalories.toFixed(2)} kcal/day</p>
+                <p>도보 운동: ${lowCalories.toFixed(2)} kcal/day</p>
+                <p>빠르게 걷기: ${walkingCalories.toFixed(2)} kcal/day</p>
+                <p>달리기: ${cardioCalories.toFixed(2)} kcal/day</p>
+                <p>저강도 근력운동: ${strengthLowCalories.toFixed(2)} kcal/day</p>
+                <p>고강도 근력운동: ${strengthHighCalories.toFixed(2)} kcal/day</p>
+                <p>TDEE (총 소비량): ${tdee.toFixed(2)} kcal/day</p>
+            `;
         }
     </script>
 </body>
